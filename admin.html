@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SMU Portal — Admin OCR Tool</title>
+<style>
+:root{--navy:#19366b;--ink:#202938;--muted:#64718a;--line:#d7deea;--bg:#f0f3f8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px Arial,Helvetica,sans-serif}
+header{background:var(--navy);color:#fff;padding:22px 14px;text-align:center}header h1{font-size:24px;margin:0}header p{color:#e1e9fb;margin:7px 0}
+main{max-width:850px;margin:20px auto;padding:0 12px 40px}.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:15px}
+h2{font-size:20px;color:var(--navy);margin:0 0 12px}.warning{background:#fff3d1;border:1px solid #e5d08c;color:#6c5000;padding:12px;border-radius:7px;font-size:13px;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}input{width:100%;padding:12px;border:1px solid #c8d1e0;border-radius:6px;font-size:15px}
+button{margin-top:14px;padding:12px 16px;border:0;border-radius:6px;background:var(--navy);color:white;font-weight:bold;cursor:pointer}button:disabled{opacity:.5}
+.secondary{background:#e8edf6;color:var(--navy)}.status{font-size:14px;line-height:1.5;white-space:pre-wrap;margin-top:12px}progress{width:100%;margin-top:12px}
+.small{font-size:12px;color:var(--muted);line-height:1.5}code{background:#eef1f6;padding:2px 4px;border-radius:3px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.card{padding:15px}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+</head><body><header><h1>SMU Result Portal — Admin OCR</h1><p>PDF → OCR → results.json</p></header>
+<main>
+<div class="warning"><b>Admin tool page, not protected authentication.</b> Anyone who knows this URL can open this page and run OCR locally. This tool does not upload the PDF. Do not publish real student data without authorization.</div>
+<section class="card"><h2>Build result index from scanned PDF</h2>
+<div class="grid">
+<div><label for="exam">Examination name</label><input id="exam" value="MBBS Professional Examination"></div>
+<div><label for="session">Session</label><input id="session" placeholder="e.g. 2023-2024"></div>
+<div><label for="year">Exam year</label><input id="year" placeholder="e.g. 2025"></div>
+<div><label for="pdf">Scanned PDF (max 20 MB, 30 pages)</label><input id="pdf" type="file" accept="application/pdf,.pdf"></div>
+</div>
+<button id="run">Run OCR &amp; Build JSON</button><button id="download" class="secondary" disabled>Download results.json</button>
+<progress id="progress" max="100" value="0" hidden></progress><div id="status" class="status"></div>
+<p class="small">OCR supports English in this demo and may misread table rows or digits. Check the output carefully before publishing.</p></section>
+<section class="card"><h2>Publish the JSON to GitHub</h2>
+<ol><li>Tap <b>Download results.json</b> after OCR completes.</li><li>Open your GitHub repository and upload the file to <code>data/results.json</code>, replacing the existing index.</li><li>Commit changes, wait for GitHub Pages to update, then test the student page.</li></ol>
+<p><a href="./index.html">← Open student result page</a></p>
+</section></main>
+<script>
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+let generated=null,busy=false;
+document.getElementById("run").onclick=async()=>{
+if(busy)return;const file=document.getElementById("pdf").files[0],session=document.getElementById("session").value.trim(),exam=document.getElementById("exam").value.trim(),year=document.getElementById("year").value.trim(),status=document.getElementById("status"),progress=document.getElementById("progress"),run=document.getElementById("run"),dl=document.getElementById("download");
+generated=null;dl.disabled=true;
+if(!window.pdfjsLib||!window.Tesseract){status.textContent="OCR libraries did not load. Check internet and reload.";return}
+if(!file||!session){status.textContent="Select a PDF and enter session.";return}
+if(file.size>20*1024*1024){status.textContent="PDF exceeds 20 MB demo limit.";return}
+busy=true;run.disabled=true;progress.hidden=false;progress.value=0;let worker;
+try{
+const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
+if(pdf.numPages>30)throw Error("PDF has "+pdf.numPages+" pages; demo limit is 30.");
+worker=await Tesseract.createWorker("eng",1,{logger:m=>{if(m.status==="recognizing text")status.textContent="OCR running: "+Math.round((m.progress||0)*100)+"% of current page"}});
+const pages=[];
+for(let p=1;p<=pdf.numPages;p++){status.textContent="Processing page "+p+" / "+pdf.numPages;const page=await pdf.getPage(p),vp=page.getViewport({scale:1.8}),canvas=document.createElement("canvas"),ctx=canvas.getContext("2d");canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);await page.render({canvasContext:ctx,viewport:vp}).promise;const ocr=await worker.recognize(canvas);pages.push("\\n\\n--- PAGE "+p+" ---\\n"+(ocr.data.text||""));progress.value=Math.round(p/pdf.numPages*100);canvas.width=canvas.height=1}
+let old=[];try{const response=await fetch("./data/results.json?x="+Date.now(),{cache:"no-store"});if(response.ok){const x=await response.json();if(Array.isArray(x))old=x}}catch(e){}
+old=old.filter(r=>!(String(r.session||"").trim().toLowerCase()===session.toLowerCase()&&String(r.sourceName||"")===file.name));
+old.push({session,exam,year,sourceName:file.name,createdAt:new Date().toISOString(),text:pages.join("")});generated=old;status.textContent="OCR complete. Download results.json, inspect it, then upload it to data/results.json on GitHub.";dl.disabled=false;
+}catch(e){status.textContent="OCR failed: "+(e.message||String(e))}
+finally{if(worker)try{await worker.terminate()}catch(e){}busy=false;run.disabled=false}
+};
+document.getElementById("download").onclick=()=>{if(!generated)return;const blob=new Blob([JSON.stringify(generated,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="results.json";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)};
+</script></body></html>
