@@ -5,79 +5,117 @@
 <title>SMU Result Portal — Student Search</title>
 <style>
 :root{--navy:#19366b;--ink:#202938;--muted:#64718a;--line:#d7deea;--bg:#f0f3f8;--gold:#9a8665}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font:16px Arial,Helvetica,sans-serif;color:var(--ink)}
-header{background:var(--navy);color:white;text-align:center;padding:22px 14px;border-bottom:5px solid var(--gold)}.logo{width:78px;height:78px;object-fit:contain;border-radius:50%;background:white;margin-bottom:9px}header h1{font-size:clamp(20px,4vw,29px);margin:0}header p{margin:7px 0 0;color:#e1e9fb}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font:16px Arial,Helvetica,sans-serif;color:var(--ink)}
+header{background:#fff;color:#8b8b8b;text-align:center;padding:24px 14px 20px;border-bottom:5px solid var(--gold)}
+.logo{display:block;width:78px;height:78px;object-fit:contain;border-radius:50%;background:#fff;margin:0 auto 12px;image-rendering:auto}
+header h1{font-size:clamp(20px,4vw,29px);font-weight:700;color:#777;margin:0;line-height:1.25}
+header p{margin:8px 0 0;color:#858585;font-size:16px;line-height:1.4}
 .notice{max-width:880px;margin:12px auto;padding:10px 13px;background:#fff5d7;border:1px solid #e6d49a;border-radius:6px;font-size:12px;line-height:1.5;color:#70540a}
-main{max-width:880px;margin:18px auto;padding:0 12px 40px}.card{background:#fff;border:1px solid var(--line);border-radius:9px;padding:20px;box-shadow:0 4px 15px #1b2b4a0b}h2{margin:0 0 15px;color:var(--navy);font-size:21px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}input,select{width:100%;padding:12px;border:1px solid #c8d1e0;border-radius:6px;font-size:15px;background:#fff;color:var(--ink)}button{margin-top:14px;background:var(--navy);color:white;border:0;border-radius:6px;padding:12px 17px;font-weight:bold;cursor:pointer}.status{margin-top:12px;font-size:14px;white-space:pre-wrap;line-height:1.5}
-.sheet{margin-top:20px;background:white;border:1px solid #bac5d6}.sheethead{text-align:center;padding:22px 12px 16px;border-bottom:3px double var(--gold)}.sheethead h3{font-size:20px;color:var(--navy);margin:0 0 8px}.sheethead h2{margin:0 0 6px;font-size:23px}.sheethead p{margin:0;color:var(--muted);font-size:13px}.body{padding:18px}.section{color:var(--navy);font-weight:bold;border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 12px}
-.details{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);margin-bottom:18px}.details div{padding:10px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.details div:nth-child(odd){background:#f5f7fb;font-weight:bold}.details div:nth-last-child(-n+2){border-bottom:0}
-.pill{display:inline-block;background:#edf8f0;border:1px solid #b8d9c2;color:#176b37;border-radius:20px;padding:5px 10px;font-weight:bold;font-size:12px}.note{background:#f7f9fc;border:1px solid var(--line);padding:10px;border-radius:5px;font-size:12px;color:var(--muted);line-height:1.5}.raw{white-space:pre-wrap;overflow-wrap:anywhere;background:#fafbfe;border:1px solid var(--line);padding:10px;font-size:13px;max-height:250px;overflow:auto}
-.result-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(180px,.9fr);border:1px solid var(--line);margin:10px 0 16px}.subject-panel{padding:14px;border-right:1px solid var(--line)}.subject-heading{font-weight:bold;padding:8px 4px 13px;border-bottom:1px solid var(--line)}.subject-row{display:grid;grid-template-columns:42px 1fr;min-height:48px;border-bottom:1px solid var(--line)}.subject-row:last-child{border-bottom:0}.subject-no,.subject-name{padding:12px 8px}.subject-no{font-weight:bold;border-right:1px solid var(--line)}.subject-name{overflow-wrap:anywhere}.outcome{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;font-size:clamp(20px,3vw,30px);font-weight:bold;overflow-wrap:anywhere}.pass{color:#176b37}.fail{color:#a21d2b}.pending{color:#765813}.outcome small{display:block;font-size:14px;font-weight:normal;margin-top:10px;line-height:1.4}
+main{max-width:880px;margin:18px auto;padding:0 12px 40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:9px;padding:20px;box-shadow:0 4px 15px #1b2b4a0b}
+h2{margin:0 0 15px;color:var(--navy);font-size:21px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}
+input,select{width:100%;padding:12px;border:1px solid #c8d1e0;border-radius:6px;font-size:15px;background:#fff;color:var(--ink)}
+button{margin-top:14px;background:var(--navy);color:white;border:0;border-radius:6px;padding:12px 17px;font-weight:bold;cursor:pointer}
+.status{margin-top:12px;font-size:14px;white-space:pre-wrap;line-height:1.5}
+.sheet{margin-top:20px;background:white;border:1px solid #bac5d6}
+.sheethead{text-align:center;padding:22px 12px 16px;border-bottom:3px double var(--gold)}
+.sheethead h3{font-size:20px;color:var(--navy);margin:0 0 8px}
+.sheethead h2{margin:0 0 6px;font-size:23px}
+.sheethead p{margin:0;color:var(--muted);font-size:13px}
+.body{padding:18px}
+.section{color:var(--navy);font-weight:bold;border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 12px}
+.details{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);margin-bottom:18px}
+.details div{padding:10px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.details div:nth-child(odd){background:#f5f7fb;font-weight:bold}
+.details div:last-child,.details div:nth-last-child(2){border-bottom:0}
+.result-layout{display:grid;grid-template-columns:60% 40%;border:1px solid var(--line);min-height:210px}
+.subjects{padding:18px}
+.subject-title{font-weight:bold;padding:10px 8px 14px;border-bottom:1px solid var(--line)}
+.subject-row{display:grid;grid-template-columns:48px 1fr;border-bottom:1px solid var(--line)}
+.subject-row:last-child{border-bottom:0}
+.subject-row span{padding:12px 8px;overflow-wrap:anywhere}
+.subject-row span:first-child{font-weight:bold;border-right:1px solid var(--line)}
+.overall-result{border-left:1px solid var(--line);display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;font-size:25px;font-weight:bold;color:#176b37;overflow-wrap:anywhere}
+.overall-result.fail{color:#a21d2b}
+.overall-result.hons{color:#176b37;flex-direction:column;gap:7px}
+.overall-result .hons-subject{font-size:17px}
+.note{background:#f7f9fc;border:1px solid var(--line);padding:10px;border-radius:5px;font-size:12px;color:var(--muted);line-height:1.5;margin-top:14px}
+.raw{white-space:pre-wrap;overflow-wrap:anywhere;background:#fafbfe;border:1px solid var(--line);padding:10px;font-size:13px;max-height:250px;overflow:auto}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
-@media(max-width:560px){.grid{grid-template-columns:1fr}.card{padding:15px}.body{padding:12px}.details{grid-template-columns:1fr 1fr}.details div{font-size:13px;padding:8px}.result-layout{grid-template-columns:1fr}.subject-panel{border-right:0;border-bottom:1px solid var(--line)}.outcome{min-height:110px}}
-@media print{body{background:#fff}.notice,.card,footer,.sheet button{display:none!important}main{margin:0;max-width:none;padding:0}.sheet{border:0}.body{padding:12px}.result-layout{break-inside:avoid}}
+@media(max-width:560px){
+ .grid{grid-template-columns:1fr}.card{padding:15px}.body{padding:12px}
+ .details{grid-template-columns:1fr 1fr}.details div{font-size:13px;padding:8px}
+ .result-layout{grid-template-columns:60% 40%;min-height:180px}
+ .subjects{padding:8px}.subject-title{padding:8px 4px;font-size:13px}
+ .subject-row{grid-template-columns:30px 1fr}.subject-row span{padding:10px 5px;font-size:13px}
+ .overall-result{font-size:20px;padding:8px}.overall-result .hons-subject{font-size:14px}
+}
+@media print{body{background:#fff}.notice,.card,footer{display:none!important}main{margin:0;max-width:none;padding:0}.sheet{border:0}.body{padding:12px}}
 </style></head><body>
-<header><img class="logo" src="smu-logo.jpg" alt="SMU logo" onerror="this.src='./smu-logo.jpg'"><h1>SYLHET MEDICAL UNIVERSITY</h1><p>Examination &amp; Result Portal</p></header>
+<header><img class="logo" src="smu-logo.jpg" alt="SMU logo"><h1>SYLHET MEDICAL UNIVERSITY</h1><p>Examination &amp; Result Portal</p></header>
 <div class="notice"><b>This is not an official university website.</b></div>
-<main><section class="card"><h2>Student Result Search</h2><div class="grid">
+<main><section class="card"><h2>Student Result Search</h2>
+<div class="grid">
 <div><label for="exam">Exam Name</label><select id="exam" required><option value="">Select examination</option><option>First Professional Examination</option><option>Second Professional Examination</option><option>Third Professional Examination</option><option>Final Professional Examination</option></select></div>
 <div><label for="session">Session</label><select id="session" required><option value="">Select session</option><option>2023-2024</option><option>2024-2025</option><option>2025-2026</option><option>2026-2027</option></select></div>
 <div><label for="serial">Serial Number</label><input id="serial" placeholder="Enter serial number" inputmode="numeric"></div>
-<div><label for="reg">Registration Number</label><input id="reg" placeholder="Enter registration number" inputmode="numeric"></div></div>
+<div><label for="reg">Registration Number</label><input id="reg" placeholder="Enter registration number" inputmode="numeric"></div>
+</div>
 <button id="search">Search Result</button><div id="status" class="status"></div></section><div id="results"></div></main>
-<footer>SMU Result Portal Demo</footer><footer>Developed By-<b>Jubayed Islam</b>, 63<sup>rd</sup> MBBS, SOMC</footer>
+<footer>SMU Result Portal Demo</footer>
+<footer>Developed By-<b>Jubayed Islam</b>, 63<sup>rd</sup> MBBS, SOMC</footer>
 <script>
 const INDEX_URL="./data/results.json";
-const SUBJECTS={
- "First Professional Examination":["Anatomy","Physiology","Biochemistry"],
- "Second Professional Examination":["Pharmacology and Therapeutics","Forensic Medicine and Toxicology"],
- "Third Professional Examination":["Pharmacology and Therapeutics","Microbiology","Pathology"],
- "Final Professional Examination":["Medicine","Surgery","Obstetrics and Gynaecology"]
-};
 const norm=s=>String(s||"").toLowerCase().normalize("NFKC").replace(/\s+/g," ").trim();
 const normReg=s=>String(s||"").toUpperCase().normalize("NFKC").replace(/[^A-Z0-9]/g,"");
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function locate(text,reg){const raw=String(text||""),target=normReg(reg);let flat="",pos=[];for(let i=0;i<raw.length;i++){const c=raw[i].toUpperCase();if(/[A-Z0-9]/.test(c)){flat+=c;pos.push(i)}}const at=flat.indexOf(target);if(at<0)return{row:"",context:""};const p=pos[at],l=raw.lastIndexOf("[",p),r=raw.indexOf("[",p+target.length);const start=l>=0&&p-l<180?l:Math.max(0,p-130);const end=r>=0&&r-p<260?r:Math.min(raw.length,p+260);return{row:raw.slice(start,end).replace(/--- PAGE \d+ ---/g,"").trim(),context:raw.slice(Math.max(0,p-200),Math.min(raw.length,p+300)).trim()}}
-function parse(row,reg){let a=String(row||"").replace(/[\[\]]/g,"").split("|").map(x=>x.trim()).filter(Boolean);if(a.length&&/^\d{1,4}$/.test(a[0]))a.shift();let i=a.findIndex(x=>normReg(x).includes(normReg(reg)));if(i<0)i=a.findIndex(x=>normReg(x).length>=7);const name=i>=0?(a[i+1]||"Not confidently extracted"):"Not confidently extracted";const rest=i>=0?a.slice(i+2):[];const result=rest.find(x=>/pass|fail|promot|withheld|absent|supplement|honou?r/i.test(x))||"Needs manual verification";return{registration:i>=0?a[i]:reg,name,result}}
-function list(v){if(Array.isArray(v))return v.map(String).map(x=>x.trim()).filter(Boolean);if(typeof v==="string")return v.split(/[,;|\n]+/).map(x=>x.trim()).filter(Boolean);return []}
-function outcomeFor(r,f,ctx){
- const all=[f.result,ctx,r.text||""].join(" ");
- const failed=list(r.failedSubjects||r.failed_subjects||r.failSubjects||r.fail_subjects);
- const hons=String(r.honsSubject||r.honoursSubject||r.honorsSubject||r.hons_subject||r.honours_subject||"").trim();
- const failedRegex=/failed?\s+(?:in\s+)?(Anatomy|Physiology|Biochemistry|Pharmacology and Therapeutics|Forensic Medicine and Toxicology|Microbiology|Pathology|Medicine|Surgery|Obstetrics and Gynaecology)/ig;
- if(!failed.length){let m;while((m=failedRegex.exec(all)))failed.push(m[1])}
- const hm=all.match(/honou?rs?\s+in\s+(Anatomy|Physiology|Biochemistry|Pharmacology and Therapeutics|Forensic Medicine and Toxicology|Microbiology|Pathology|Medicine|Surgery|Obstetrics and Gynaecology)/i);
- const hs=hons||(hm?hm[1]:"");
- const stat=String(r.resultStatus||r.result_status||r.overallResult||r.overall_result||f.result||"");
- if(failed.length||/\bfail(?:ed)?\b/i.test(stat))return {type:"fail",label:failed.length?"Failed in "+[...new Set(failed)].join(", "):"Failed"};
- if(hs)return {type:"pass",label:"Passed",detail:"Hons in "+hs};
- if(/\bpass(?:ed)?\b/i.test(stat))return {type:"pass",label:"Passed"};
- return {type:"pending",label:"Needs verification"};
+function parse(row,reg){let a=String(row||"").replace(/[\[\]]/g,"").split("|").map(x=>x.trim()).filter(Boolean);if(a.length&&/^\d{1,4}$/.test(a[0]))a.shift();let i=a.findIndex(x=>normReg(x).includes(normReg(reg)));if(i<0)i=a.findIndex(x=>normReg(x).length>=7);const name=i>=0?(a[i+1]||"Not confidently extracted"):"Not confidently extracted";const rest=i>=0?a.slice(i+2):[];const result=rest.find(x=>/pass|fail|promot|withheld|absent|supplement/i.test(x))||"Needs manual verification";return{registration:i>=0?a[i]:reg,name,result}}
+function extractSubjects(exam){
+ const e=norm(exam);
+ if(e.startsWith("first"))return ["Anatomy","Physiology","Biochemistry"];
+ if(e.startsWith("second"))return ["Pharmacology and Therapeutics","Forensic Medicine and Toxicology"];
+ if(e.startsWith("third"))return ["Pharmacology and Therapeutics","Microbiology","Pathology"];
+ return ["Medicine","Surgery","Obstetrics and Gynaecology"];
 }
-function renderCard(r,exam,session,serial,reg,f,x){
- const ex=r.exam||exam, subjects=SUBJECTS[ex]||SUBJECTS[exam]||[],o=outcomeFor(r,f,x.context||x.row);
- const rows=subjects.map((s,i)=>`<div class="subject-row"><div class="subject-no">${i+1}</div><div class="subject-name">${esc(s)}</div></div>`).join("");
- return `<article class="sheet"><div class="sheethead"><h3>${esc(ex)}</h3><h2>RESULT SHEET</h2><p>Sylhet Medical University · Unofficial demo copy</p></div><div class="body">
- <p class="section">Student Information</p><div class="details"><div>Exam Name</div><div>${esc(ex)}</div><div>Session</div><div>${esc(r.session||session)}</div><div>Serial Number (entered)</div><div>${esc(serial)}</div><div>Registration Number</div><div>${esc(reg)}</div><div>Student Name (OCR)</div><div>${esc(f.name)}</div><div>Result Status</div><div><span class="pill">${esc(o.label.toUpperCase())}</span></div><div>Source PDF</div><div>${esc(r.sourceName||"OCR index")}</div></div>
- <p class="section">Result</p><div class="result-layout"><div class="subject-panel"><div class="subject-heading">Name of the Subject/Subjects appearing at:</div>${rows}</div><div class="outcome ${o.type}">${esc(o.label)}${o.detail?`<small>${esc(o.detail)}</small>`:""}</div></div>
- <div class="note">OCR can misread names, registration digits and result status. Verify all details against the original result sheet. Honours and failed-subject details must exist in the JSON data or be clearly present in OCR text.</div><details style="margin-top:13px"><summary>Show OCR text for checking</summary><div class="raw">${esc(x.context||x.row)}</div></details><button onclick="window.print()">Print / Save as PDF</button></div></article>`;
+function resultPresentation(text, fallback){
+ const t=String(text||"");
+ const fail=t.match(/(?:fail(?:ed)?(?:\s+in)?|unsuccessful)(?:\s*[:\-]?\s*)(anatomy|physiology|biochemistry|pharmacology and therapeutics|forensic medicine and toxicology|microbiology|pathology|medicine|surgery|obstetrics and gynaecology)/i);
+ const hons=t.match(/hons?\s*(?:in)?\s*[:\-]?\s*(anatomy|physiology|biochemistry|pharmacology and therapeutics|forensic medicine and toxicology|microbiology|pathology|medicine|surgery|obstetrics and gynaecology)/i);
+ if(fail)return {label:"Failed",detail:"Failed in "+fail[1],kind:"fail"};
+ if(hons)return {label:"Passed",detail:"Hons in "+hons[1],kind:"hons"};
+ if(/\bpass(?:ed)?\b/i.test(t))return {label:"Passed",detail:"",kind:"pass"};
+ return {label:fallback||"Needs manual verification",detail:"",kind:"unknown"};
 }
 document.getElementById("search").onclick=async()=>{
- const exam=document.getElementById("exam").value.trim(),session=document.getElementById("session").value.trim(),serial=document.getElementById("serial").value.trim(),reg=document.getElementById("reg").value.trim();
+ const exam=document.getElementById("exam").value.trim();
+ const session=document.getElementById("session").value.trim();
+ const serial=document.getElementById("serial").value.trim();
+ const reg=document.getElementById("reg").value.trim();
  const status=document.getElementById("status"),out=document.getElementById("results");out.innerHTML="";
  if(!exam||!session||!serial||!reg){status.textContent="Please select Exam Name and Session, and enter both Serial Number and Registration Number.";return}
  status.textContent="Loading…";
  try{
- const res=await fetch(INDEX_URL+"?v="+Date.now(),{cache:"no-store"});if(!res.ok)throw Error("Cannot load data/results.json (HTTP "+res.status+"). Check file path.");
- const data=await res.json();if(!Array.isArray(data))throw Error("results.json must be a JSON array.");
- const matches=data.filter(r=>norm(r.session)===norm(session)&&norm(r.exam)===norm(exam)&&normReg(r.text||"").includes(normReg(reg)));
- if(!matches.length){status.textContent="No matching result found. Check Exam Name, Session and Registration Number.";return}
- const verified=matches.map(r=>{const x=locate(r.text||"",reg),f=parse(x.row,reg);return {r,x,f}});
- const serialMatches=verified.filter(o=>{const first=String(o.x.row||"").replace(/^\s*\[?/,"").match(/^\s*(\d{1,5})/);return first&&first[1]===serial});
- const shown=serialMatches.length?serialMatches:verified;
- status.textContent=serialMatches.length?"Record found. Verify OCR-extracted details against the original PDF.":"Registration found, but serial number could not be verified from OCR. Check the source PDF.";
- out.innerHTML=shown.map(({r,x,f})=>renderCard(r,exam,session,serial,reg,f,x)).join("");
- }catch(e){status.textContent="Error: "+e.message}
+  const res=await fetch(INDEX_URL+"?v="+Date.now(),{cache:"no-store"});
+  if(!res.ok)throw Error("Cannot load data/results.json (HTTP "+res.status+"). Check file path.");
+  const data=await res.json();if(!Array.isArray(data))throw Error("results.json must be a JSON array.");
+  const matches=data.filter(r=>norm(r.session)===norm(session)&&norm(r.exam)===norm(exam)&&normReg(r.text||"").includes(normReg(reg)));
+  if(!matches.length){status.textContent="No matching result found. Check Exam Name, Session, Serial Number and Registration Number. Confirm that matching OCR data exists in results.json.";return}
+  const verified=matches.map(r=>{const x=locate(r.text||"",reg),f=parse(x.row,reg);return {r,x,f}});
+  const serialMatches=verified.filter(o=>{const first=String(o.x.row||"").replace(/^\s*\[?/,"").match(/^\s*(\d{1,5})/);return first&&first[1]===serial});
+  const shown=serialMatches.length?serialMatches:verified;
+  if(!serialMatches.length){status.textContent="Registration number found, but the entered serial number could not be verified from OCR. Showing the registration match; check the source PDF.";}
+  else status.textContent="Record found. Please verify OCR-extracted details against the original PDF.";
+  out.innerHTML=shown.map(({r,x,f})=>{
+   const presentation=resultPresentation((x.context||"")+" "+(x.row||""),f.result);
+   const subjects=extractSubjects(r.exam||exam);
+   const resultText=presentation.kind==="hons"?`<div>${esc(presentation.label)}</div><div class="hons-subject">${esc(presentation.detail)}</div>`:presentation.kind==="fail"?esc(presentation.detail):esc(presentation.label);
+   const resultClass=presentation.kind==="fail"?"fail":presentation.kind==="hons"?"hons":"";
+   return `<article class="sheet"><div class="sheethead"><h3>${esc(r.exam||exam)}</h3><h2>RESULT SHEET</h2><p>Sylhet Medical University · Unofficial demo copy</p></div><div class="body"><p class="section">Student Information</p><div class="details"><div>Exam Name</div><div>${esc(r.exam||exam)}</div><div>Session</div><div>${esc(r.session||session)}</div><div>Serial Number</div><div>${esc(serial)}</div><div>Registration Number</div><div>${esc(f.registration)}</div><div>Student Name</div><div>${esc(f.name)}</div></div><p class="section">Result</p><div class="result-layout"><div class="subjects"><div class="subject-title">Name of the Subject/Subjects appearing at:</div>${subjects.map((s,i)=>`<div class="subject-row"><span>${i+1}</span><span>${esc(s)}</span></div>`).join("")}</div><div class="overall-result ${resultClass}">${resultText}</div></div><div class="note">This is an unofficial demo result sheet. Verify all details against the original result sheet.</div><details style="margin-top:13px"><summary>Show OCR text for checking</summary><div class="raw">${esc(x.context||x.row)}</div></details><button onclick="window.print()">Print / Save as PDF</button></div></article>`;
+  }).join("");
+ }catch(e){status.textContent="Error: "+e.message;}
 };
 </script></body></html>
