@@ -54,6 +54,54 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
  .overall-result{font-size:20px;padding:8px}.overall-result .hons-subject{font-size:14px}
 }
 @media print{body{background:#fff}.notice,.card,footer{display:none!important}main{margin:0;max-width:none;padding:0}.sheet{border:0}.body{padding:12px}}
+
+/* Make all result-sheet table borders clearer */
+.details {
+  border: 1.5px solid #aeb9c9;
+  border-collapse: collapse;
+}
+
+.details div {
+  border-bottom: 1.5px solid #aeb9c9;
+}
+
+table {
+  border-collapse: collapse;
+  border: 1.5px solid #aeb9c9;
+}
+
+th,
+td {
+  border: 1.5px solid #aeb9c9;
+}
+
+/* Complete outer border of the result section */
+.sheet {
+  border: 1.5px solid #aeb9c9;
+}
+
+.sheethead {
+  border-bottom: 3px double #9a8665;
+}
+
+.section {
+  border-bottom: 1.5px solid #aeb9c9;
+}
+
+/* Keep borders visible when printing or saving as PDF */
+@media print {
+  .details,
+  .details div,
+  table,
+  th,
+  td,
+  .sheet {
+    border-color: #aeb9c9 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
 </style></head><body>
 <header><img class="logo" src="smu-logo.jpg" alt="SMU logo"><h1>SYLHET MEDICAL UNIVERSITY</h1><p>Examination &amp; Result Portal</p></header>
 <div class="notice"><b>This is not an official university website.</b></div>
